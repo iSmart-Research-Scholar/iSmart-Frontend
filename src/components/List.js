@@ -1,36 +1,54 @@
-import React, { useEffect } from "react";
-import { Container, Center, Box, Anchor, Button } from "@mantine/core";
+import React, { useEffect, useState } from "react";
+import { Container, Center, Box, Anchor, Button, Modal } from "@mantine/core";
 import { Header } from "@mantine/core";
 import axios from "axios";
-import test from "../test.json";
+// import test from "../test.json";
 
 function List(props) {
-    const keywords = "image theory analysis and image";
+    const { keywords, data } = props;
+    const test = data;
     const papers = test.articles;
-    const total_records = test.total_records;
-    const total_searched = test.total_searched;
+
+    console.log(data)
     useEffect(() => {
-        console.log(papers, total_records, total_searched);
-    }, [test]);
+        console.log(papers);
+    }, [papers]);
+
+    const [globalId, setglobalId] = useState(0);
+    const [modal, setModal] = useState({});
+    const [opened, setOpened] = useState(false);
+
+    function keyValue(key) {
+        setglobalId(key);
+        console.log(globalId);
+        return getAuthorDetails();
+    }
 
     async function getAuthorDetails(e) {
         // https://author-profiling.herokuapp.com/?author=37283451200&keywords=image%20theory%20analysis%20and%20image
-        let id = 37283451200;
         console.log("Start Profiling");
         await axios({
             method: "GET",
-            url: `https://author-profiling.herokuapp.com/?author=${id}&keywords=${keywords}`,
-            timeout: 20000
-        }).then((data) => { console.log(data.data) });
+            url: `http://127.0.0.1:8000/?author=${papers[0].authors.authors[globalId].id}&keywords=${keywords}`,
+            timeout: 400000,
+        }).then((data) => {
+            setModal(data.data[0]);
+        });
         console.log("End Profiling");
+        setOpened(true);
     }
     return (
         <>
             {papers.map((item, key) => {
                 return (
-                    <Container key={key} style={{margin: 0}}>
+                    <Container key={key} style={{ margin: 0 }}>
                         <Box
-                            style={{backgroundColor: 'white', padding: "12px", borderRadius: "6px", margin: "10px 0 10px 0"}}
+                            style={{
+                                backgroundColor: "white",
+                                padding: "12px",
+                                borderRadius: "6px",
+                                margin: "10px 0 10px 0",
+                            }}
                         >
                             <h5>
                                 <Anchor
@@ -45,15 +63,33 @@ function List(props) {
                                 {item.authors.authors.map((author, key) => {
                                     return (
                                         <>
+                                            <Modal
+                                                opened={opened}
+                                                onClose={() => setOpened(false)}
+                                                title="Author Details"
+                                            >
+                                                <h5>Name: {modal.name}</h5> 
+                                                <h5>Citation Count : {modal.citation_count}</h5>
+                                                
+                                                <h5>
+                                                    Publication Count: {modal.publication_count}
+                                                </h5>
+                                                
+                                                <h5>
+                                                    Publication Topics : {modal.publication_topics_list}
+                                                </h5>
+                                            </Modal>
                                             <Button
-                                                style={{ padding: 0, margin: "2px"}}
+                                                style={{
+                                                    padding: 0,
+                                                    margin: "2px",
+                                                }}
                                                 key={key}
-                                                onClick={getAuthorDetails}
+                                                onClick={() => keyValue(key)}
                                                 variant={"subtle"}
                                             >
                                                 {author.full_name}
                                             </Button>{" "}
-                                            
                                         </>
                                     );
                                 })}
@@ -63,7 +99,7 @@ function List(props) {
                                 style={{
                                     display: "flex",
                                     alignItems: "center",
-                                    margin: 0
+                                    margin: 0,
                                 }}
                             >
                                 <h5 style={{ margin: 0, padding: 0 }}>
