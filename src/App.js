@@ -1,20 +1,19 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import List from "./components/List"
 import {
     AppShell,
     Navbar,
     Header,
-    Container,
-    NavLink,
-    Center,
-    TextInput,
+    NavLink
 } from "@mantine/core";
+import KeywordForm from "./components/KeywordForm";
 import {
     IconFileSearch,
-    IconSearch,
     IconKeyboard,
-    IconPhoto,
 } from "@tabler/icons";
-
+import test from './test.json';
+import DocumentForm from "./components/DocumentForm";
 const data = [
     {
         icon: IconKeyboard,
@@ -23,13 +22,18 @@ const data = [
     },
     {
         icon: IconFileSearch,
-        label: "Document Search",
-        description: "Look for document similar to given document.",
+        label: "Research Paper Summary",
+        description: "Generate Summary for uploaded Research Paper",
     },
 ];
 
+
+
 function App() {
     const [active, setActive] = useState(0);
+
+    // console.log(test);
+    // console.log(test.articles);
     const items = data.map((item, index) => (
         <NavLink
             key={item.label}
@@ -41,6 +45,18 @@ function App() {
             onClick={() => setActive(index)}
         />
     ));
+    
+
+    function getWhich(idx) {
+        switch (idx) {
+            case 0:
+                return <KeywordForm />;
+            case 1:
+                return <DocumentForm />;
+            default:
+                return null;
+        }
+    }
     return (
         <div className="App">
             <AppShell
@@ -61,21 +77,14 @@ function App() {
                             theme.colorScheme === "dark"
                                 ? theme.colors.dark[8]
                                 : theme.colors.gray[0],
+                        margin: 0
                     },
                 })}
             >
-                <Container size="xl">
-                    <Center style={{ width: 800 }}>
-                        <TextInput
-                            placeholder="Enter space seperated Keywords"
-                            label="Keywords"
-                            icon={<IconSearch size={18} />}
-                            size="lg"
-                            style={{ width: 700 }}
-                            withAsterisk
-                        />
-                    </Center>
-                </Container>
+                {
+                    getWhich(active)
+                }
+                {/* <KeywordForm /> */}
             </AppShell>
         </div>
     );
