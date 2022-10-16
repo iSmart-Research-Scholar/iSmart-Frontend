@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, TextInput, Button } from "@mantine/core";
+import { Container, TextInput, Button, Radio } from "@mantine/core";
 import { useToggle } from "@mantine/hooks";
 import List from "./List";
 import { IconSearch } from "@tabler/icons";
@@ -12,7 +12,7 @@ function KeywordForm() {
     const [active, setActive] = useState(false);
     const [value, toggle] = useToggle(["True", "False"]);
     const [value1, toggle1] = useToggle(["True", "False"]);
-
+    const [sorter, setSorter] = useState("citing_paper_count");
     async function submitHandler(e) {
         // e.preventDefault();
         // // satyam api
@@ -29,7 +29,7 @@ function KeywordForm() {
         console.log("Submitting ...");
         await axios({
             method: "GET",
-            url: `https://semantic-scholar-data-ranking.herokuapp.com/?keywords=${keys}&recent=${value}&citation_weight=${value1}`,
+            url: `https://semantic-scholar-data-ranking.herokuapp.com/?keywords=${keys}&recent=${value}&citation_weight=${value1}&factor=${sorter}`,
             timeout: 120000,
         })
             .then((res) => {
@@ -51,7 +51,7 @@ function KeywordForm() {
                         marginLeft: "2.1%",
                     }}
                 >
-                    <div style={{display: "flex", alignItems: "center"}}>
+                    <div style={{ display: "flex", alignItems: "center" }}>
                         <TextInput
                             placeholder="Enter Keywords"
                             icon={<IconSearch size={18} />}
@@ -100,6 +100,20 @@ function KeywordForm() {
                         >
                             {value1 === "True" ? "True" : "False"}
                         </Button>
+                    </div>
+                    <div style={{width: "70%"}}>
+                        <Radio.Group
+                            name="sort"
+                            label="Sort By : "
+                            value={sorter}
+                            onChange={ setSorter }
+                            size="md"
+                            style={{ width: "100%"}}
+                        >
+                            <Radio value="citing_paper_count" label="Sort By Citations" />
+                            <Radio value="publication_year" label="Sort By Publication Year" />
+                            <Radio value="paperScore" label="Relevance" />
+                        </Radio.Group>
                     </div>
                 </div>
             </form>

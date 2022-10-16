@@ -14,7 +14,7 @@ function DocumentForm() {
         await axios({
             method: "GET",
             url: `https://isummarizer.herokuapp.com/summarize/?url=${url}`,
-            timeout: 40000,
+            timeout: 40000
         })
             .then((data) => {
                 console.log(data.data.summary);

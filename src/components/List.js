@@ -58,19 +58,20 @@ function List(props) {
                                     {item.title}
                                 </Anchor>
                             </h5>
-                            {
-                                item.abstract && item.abstract !== '' && item.abstract !== " " ?
-                                    (<div style={{ padding: "0 3% 0 3%" }}>
-                                <h5>
-                                    <summary style={{ fontWeight: 400 }}>
-                                        {item.abstract.slice(0, 150)} {"..."}
-                                    </summary>
-                                    <details>{item.abstract}</details>
-                                </h5>
-                                    </div>) :
-                                    null
-                            }
-                            
+                            {item.abstract &&
+                            item.abstract !== "" &&
+                            item.abstract !== " " ? (
+                                <div style={{ padding: "0 3% 0 3%" }}>
+                                    <h5>
+                                        <summary style={{ fontWeight: 400 }}>
+                                            {item.abstract.slice(0, 150)}{" "}
+                                            {"..."}
+                                        </summary>
+                                        <details>{item.abstract}</details>
+                                    </h5>
+                                </div>
+                            ) : null}
+
                             <div>
                                 Authors :
                                 {item.authors.authors.map((author, key) => {
@@ -93,10 +94,7 @@ function List(props) {
                                                 </h5>
 
                                                 <h5>
-                                                    H-Index :{" "}
-                                                    {
-                                                        modal.hIndex
-                                                    }
+                                                    H-Index : {modal.hIndex}
                                                 </h5>
                                             </Modal>
                                             <Button
@@ -132,6 +130,10 @@ function List(props) {
                                     {item.journal !== ""
                                         ? item.journal
                                         : "Unknown"}
+                                </h5>
+                                { " | "}
+                                <h5 style={{ margin: 0, padding: 0 }}>
+                                    Publication Year: {item.publication_year}
                                 </h5>
                             </div>
                         </Box>

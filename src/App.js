@@ -6,12 +6,14 @@ import {
     NavLink
 } from "@mantine/core";
 import KeywordForm from "./components/KeywordForm";
+import ImageForm from "./components/ImageForm";
+import DocumentForm from "./components/DocumentForm";
 import {
     IconFileSearch,
     IconKeyboard,
+    IconAlbum
 } from "@tabler/icons";
 // import test from './test.json';
-import DocumentForm from "./components/DocumentForm";
 
 
 const data = [
@@ -25,9 +27,12 @@ const data = [
         label: "Research Paper Summary",
         description: "Generate Summary for uploaded Research Paper",
     },
+    // {
+    //     icon: IconAlbum,
+    //     label: "OCR Image Search",
+    //     description: "Look for Documents with keywords in the uploaded image."
+    // },
 ];
-
-
 
 function App() {
     const [active, setActive] = useState(0);
@@ -53,6 +58,8 @@ function App() {
                 return <KeywordForm />;
             case 1:
                 return <DocumentForm />;
+            // case 2:
+            //     return <ImageForm />;
             default:
                 return null;
         }
