@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import List from "./components/List"
 import {
     AppShell,
     Navbar,
@@ -12,7 +10,7 @@ import {
     IconFileSearch,
     IconKeyboard,
 } from "@tabler/icons";
-import test from './test.json';
+// import test from './test.json';
 import DocumentForm from "./components/DocumentForm";
 
 

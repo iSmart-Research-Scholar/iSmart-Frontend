@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container, Center, Box, Anchor, Button, Modal } from "@mantine/core";
-import { Header } from "@mantine/core";
+import { Container, Box, Anchor, Button, Modal } from "@mantine/core";
 import axios from "axios";
 // import test from "../test.json";
 
@@ -9,7 +8,7 @@ function List(props) {
     const test = data;
     const papers = test.articles;
 
-    console.log(data)
+    console.log(data);
     useEffect(() => {
         console.log(papers);
     }, [papers]);
@@ -27,13 +26,14 @@ function List(props) {
     async function getAuthorDetails(e) {
         // https://author-profiling.herokuapp.com/?author=37283451200&keywords=image%20theory%20analysis%20and%20image
         console.log("Start Profiling");
-        await axios({
-            method: "GET",
-            url: `http://127.0.0.1:8000/?author=${papers[0].authors.authors[globalId].id}&keywords=${keywords}`,
-            timeout: 400000,
-        }).then((data) => {
-            setModal(data.data[0]);
-        });
+        // await axios({
+        //     method: "GET",
+        //     url: `http://127.0.0.1:8000/?author=${papers[0].authors.authors[globalId].id}&keywords=${keywords}`,
+        //     timeout: 400000,
+        // }).then((data) => {
+        //     setModal(data.data[0]);
+        // });
+        setModal(papers[0].authors.authors[globalId]);
         console.log("End Profiling");
         setOpened(true);
     }
@@ -52,12 +52,25 @@ function List(props) {
                         >
                             <h5>
                                 <Anchor
-                                    href={`${item.html_url}`}
+                                    href={`${item.pdf_url}`}
                                     target="_blank"
                                 >
                                     {item.title}
                                 </Anchor>
                             </h5>
+                            {
+                                item.abstract && item.abstract !== '' && item.abstract !== " " ?
+                                    (<div style={{ padding: "0 3% 0 3%" }}>
+                                <h5>
+                                    <summary style={{ fontWeight: 400 }}>
+                                        {item.abstract.slice(0, 150)} {"..."}
+                                    </summary>
+                                    <details>{item.abstract}</details>
+                                </h5>
+                                    </div>) :
+                                    null
+                            }
+                            
                             <div>
                                 Authors :
                                 {item.authors.authors.map((author, key) => {
@@ -68,15 +81,22 @@ function List(props) {
                                                 onClose={() => setOpened(false)}
                                                 title="Author Details"
                                             >
-                                                <h5>Name: {modal.name}</h5> 
-                                                <h5>Citation Count : {modal.citation_count}</h5>
-                                                
+                                                <h5>Name: {modal.full_name}</h5>
                                                 <h5>
-                                                    Publication Count: {modal.publication_count}
+                                                    Citation Count :{" "}
+                                                    {modal.citations}
                                                 </h5>
-                                                
+
                                                 <h5>
-                                                    Publication Topics : {modal.publication_topics_list}
+                                                    Publication Count:{" "}
+                                                    {modal.paperCount}
+                                                </h5>
+
+                                                <h5>
+                                                    H-Index :{" "}
+                                                    {
+                                                        modal.hIndex
+                                                    }
                                                 </h5>
                                             </Modal>
                                             <Button
@@ -103,16 +123,15 @@ function List(props) {
                                 }}
                             >
                                 <h5 style={{ margin: 0, padding: 0 }}>
-                                    Publisher : {item.publisher}
-                                </h5>
-                                {" | "}
-                                <h5 style={{ margin: 0, padding: 0 }}>
                                     {" "}
-                                    Year : {item.publication_year}
+                                    Citations : {item.citing_paper_count}
                                 </h5>
                                 {" | "}
                                 <h5 style={{ margin: 0, padding: 0 }}>
-                                    Date : {item.publication_date}
+                                    Journal :{" "}
+                                    {item.journal !== ""
+                                        ? item.journal
+                                        : "Unknown"}
                                 </h5>
                             </div>
                         </Box>
