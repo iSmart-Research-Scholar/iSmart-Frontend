@@ -12,7 +12,7 @@ function KeywordForm() {
     const [active, setActive] = useState(false);
     const [value, toggle] = useToggle(["True", "False"]);
     const [value1, toggle1] = useToggle(["True", "False"]);
-    const [sorter, setSorter] = useState("citing_paper_count");
+    const [sorter, setSorter] = useState("paperScore");
     async function submitHandler(e) {
         // e.preventDefault();
         // // satyam api
