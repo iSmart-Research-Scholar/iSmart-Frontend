@@ -6,7 +6,9 @@ import axios from "axios";
 function List(props) {
     const { keywords, data, selector, setSelector } = props;
     const test = data;
-    const papers = test;
+    let papers;
+    if (test.articles)  papers = test.articles;
+    else papers = test;
 
     console.log(data);
     useEffect(() => {
@@ -162,10 +164,10 @@ function List(props) {
                                 selector ?
                                 <div style={{
                                     display: 'flex',
-                                    justifyContent: 'space-evenly',
+                                    justifyContent: 'flex-start',
                                     alignItems: 'center'
                                 }}><Button onClick={() => runUserSearch(item.title, item.abstract)}>Show Similar Results</Button>
-                                    <Button onClick={() => {}}>Show Similar Results by Co-Authors</Button>
+                                    {/* <Button onClick={() => {}}>Show Similar Results by Co-Authors</Button> */}
                                 </div>:
                                 null
 

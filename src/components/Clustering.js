@@ -91,7 +91,7 @@ function Clustering() {
                 }}
                 onClick={() => setClusterSelect(2)}
                 >Cluster 3</Button>
-                <Button style={{
+                {/* <Button style={{
                     width: '20%',
                     borderRadius: '0'
                 }}
@@ -102,7 +102,7 @@ function Clustering() {
                     borderRadius: '0 8px 8px 0'
                 }}
                 onClick={() => setClusterSelect(4)}
-                >Cluster 5</Button>
+                >Cluster 5</Button> */}
             </div>
             {
                 active ?
