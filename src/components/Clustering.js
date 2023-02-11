@@ -14,6 +14,7 @@ function Clustering() {
     const [sorter, setSorter] = useState("paperScore");
     const [loading, setLoading] = useState(false);
     const [selector, setSelector] = useState({});
+    const [clusterselect, setClusterSelect] = useState(0);
 
     
     async function submitHandler(e) {
@@ -23,11 +24,13 @@ function Clustering() {
 
         await axios({
             method: "GET",
-            url: `http://127.0.0.1:8000/?keywords=${keys}&recent=${value}&citation_weight=${value1}&factor=${sorter}`,
+            url: `http://127.0.0.1:10000/?keywords=${keys}&recent=${value}&citation_weight=${value1}&factor=${sorter}`,
             timeout: 120000,
         }).then((res) => {
+            console.log(res);
             setData(res.data);
             setActive(true);
+            console.log(res.data["0"])
         }).catch((err) => console.log(err));
 
         setLoading(false);
@@ -73,27 +76,37 @@ function Clustering() {
                 <Button style={{
                     width: '20%',
                     borderRadius: '8px 0 0 8px'
-                }}>Cluster 1</Button>
+                }}
+                onClick={() => setClusterSelect(0)}
+                >Cluster 1</Button>
                 <Button style={{
                     width: '20%',
                     borderRadius: '0'
-                }}>Cluster 2</Button>
+                }}
+                onClick={() => setClusterSelect(1)}
+                >Cluster 2</Button>
                 <Button style={{
                     width: '20%',
                     borderRadius: '0'
-                }}>Cluster 3</Button>
+                }}
+                onClick={() => setClusterSelect(2)}
+                >Cluster 3</Button>
                 <Button style={{
                     width: '20%',
                     borderRadius: '0'
-                }}>Cluster 4</Button>
+                }}
+                onClick={() => setClusterSelect(3)}
+                >Cluster 4</Button>
                 <Button style={{
                     width: '20%',
                     borderRadius: '0 8px 8px 0'
-                }}>Cluster 5</Button>
+                }}
+                onClick={() => setClusterSelect(4)}
+                >Cluster 5</Button>
             </div>
             {
                 active ?
-                    <List keywords={keys} data={data} /> :
+                    <List keywords={keys} data={data[`${clusterselect}`]} /> :
                     loading ?
                         <div style={{ height: '100%', width: '100%', diplay: "flex", justifyContent: "center", alignItems: "center" }}>
                             {/* <div style={{ position: 'relative', top: '10%', left: "45%" }} className="lds-hourglass"></div> */}

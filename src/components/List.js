@@ -6,7 +6,7 @@ import axios from "axios";
 function List(props) {
     const { keywords, data, selector, setSelector } = props;
     const test = data;
-    const papers = test.articles;
+    const papers = test;
 
     console.log(data);
     useEffect(() => {
