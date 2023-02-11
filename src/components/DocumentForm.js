@@ -9,11 +9,11 @@ function DocumentForm() {
     console.log(isUploaded);
     async function getSummary(url) {
         
-        console.log("In Summary", "https://isummarizer.herokuapp.com/summarize/?url="+url);
+        // console.log("In Summary", "https://isummarizer.herokuapp.com/summarize/?url="+url);
         // if(url!=="")
         await axios({
             method: "GET",
-            url: `https://isummarizer.herokuapp.com/summarize/?url=${url}`,
+            url: `http://127.0.0.1:7000/summarize/?url=${url}`,
             timeout: 40000
         })
             .then((data) => {
@@ -27,7 +27,7 @@ function DocumentForm() {
         <div>
             {isUploaded ? null : (
                 <PickerOverlay
-                    apikey={"AO72ws0hXQwinkoUdOPDOz"}
+                    apikey={process.env.REACT_APP_FILESTACK_API_KEY}
                     onUploadDone={(res) => {
                         console.log(res.filesUploaded[0].url);
                         // setUrl(res.filesUploaded[0].url);

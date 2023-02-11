@@ -61,6 +61,7 @@ function List(props) {
                             {item.abstract &&
                             item.abstract !== "" &&
                             item.abstract !== " " ? (
+                                <div>
                                 <div style={{ padding: "0 3% 0 3%" }}>
                                     <h5>
                                         <summary style={{ fontWeight: 400 }}>
@@ -70,8 +71,19 @@ function List(props) {
                                         <details>{item.abstract}</details>
                                     </h5>
                                 </div>
+                                
+                                </div>
                             ) : null}
-
+                            <div>
+                                    Sentiment Analysis : <span style={{
+                                        backgroundColor: item.sentiment_analysis == "Positive" ? "#42f57b" : 
+                                                         item.sentiment_analysis == "Neutral" ? "#6a9cf7":
+                                                         "#f54242",
+                                        padding: '4px',
+                                        borderRadius: '8px',
+                                        border: 'none'
+                                    }}>{item.sentiment_analysis}</span>
+                                </div>
                             <div>
                                 Authors :
                                 {item.authors.authors.map((author, key) => {

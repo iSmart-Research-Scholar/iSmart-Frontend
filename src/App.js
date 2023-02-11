@@ -8,6 +8,7 @@ import {
 import KeywordForm from "./components/KeywordForm";
 import ImageForm from "./components/ImageForm";
 import DocumentForm from "./components/DocumentForm";
+import Analysis from "./components/Analysis";
 import {
     IconFileSearch,
     IconKeyboard,
@@ -27,11 +28,16 @@ const data = [
         label: "Research Paper Summary",
         description: "Generate Summary for uploaded Research Paper",
     },
-    // {
-    //     icon: IconAlbum,
-    //     label: "OCR Image Search",
-    //     description: "Look for Documents with keywords in the uploaded image."
-    // },
+    {
+        icon: IconAlbum,
+        label: "OCR Image Search",
+        description: "Look for Documents with keywords in the uploaded image."
+    },
+    {
+        icon: IconFileSearch,
+        label: "Critical Analysis",
+        description: "Critical Analysis of research papers."
+    }
 ];
 
 function App() {
@@ -58,8 +64,10 @@ function App() {
                 return <KeywordForm />;
             case 1:
                 return <DocumentForm />;
-            // case 2:
-            //     return <ImageForm />;
+            case 2:
+                return <ImageForm />;
+            case 3:
+                return <Analysis />;
             default:
                 return null;
         }
@@ -84,7 +92,11 @@ function App() {
                             theme.colorScheme === "dark"
                                 ? theme.colors.dark[8]
                                 : theme.colors.gray[0],
-                        margin: 0
+                        margin: 0,
+                        background: 'linear-gradient( 95.2deg, rgba(173,202,234,1) 26.8%, rgba(192,229,246,1) 64% )',
+                        // backgroundRepeat: 'repeat',
+                        // backgroundImage: 'url("/doodle.png")',
+                        // opacity: '0.5'
                     },
                 })}
             >

@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { Container, TextInput, Button, Radio } from "@mantine/core";
+import { Container, TextInput, Button, Radio, Notification } from "@mantine/core";
 import { useToggle } from "@mantine/hooks";
 import List from "./List";
 import { IconSearch } from "@tabler/icons";
 import axios from "axios";
+// import "./css/KeywordForm.css";
 // import test from "../test.json";
 
 function KeywordForm() {
@@ -13,6 +14,7 @@ function KeywordForm() {
     const [value, toggle] = useToggle(["True", "False"]);
     const [value1, toggle1] = useToggle(["True", "False"]);
     const [sorter, setSorter] = useState("paperScore");
+    const [loading, setLoading] = useState(false);
     async function submitHandler(e) {
         // e.preventDefault();
         // // satyam api
@@ -27,9 +29,10 @@ function KeywordForm() {
         // });
         e.preventDefault();
         console.log("Submitting ...");
+        setLoading(true);
         await axios({
             method: "GET",
-            url: `https://semantic-scholar-data-ranking.herokuapp.com/?keywords=${keys}&recent=${value}&citation_weight=${value1}&factor=${sorter}`,
+            url: `http://127.0.0.1:8000/?keywords=${keys}&recent=${value}&citation_weight=${value1}&factor=${sorter}`,
             timeout: 120000,
         })
             .then((res) => {
@@ -37,11 +40,12 @@ function KeywordForm() {
                 setActive(true);
             })
             .catch((err) => console.log(err));
+        setLoading(false);
         console.log("Done");
     }
-
+    // 10.14.2.133
     return (
-        <Container size="xl">
+        <Container size="xl" style={{ height: '100%', width: '100%' }} >
             <form onSubmit={submitHandler}>
                 <div
                     style={{
@@ -101,14 +105,14 @@ function KeywordForm() {
                             {value1 === "True" ? "True" : "False"}
                         </Button>
                     </div>
-                    <div style={{width: "70%"}}>
+                    <div style={{ width: "70%" }}>
                         <Radio.Group
                             name="sort"
                             label="Sort By : "
                             value={sorter}
-                            onChange={ setSorter }
+                            onChange={setSorter}
                             size="md"
-                            style={{ width: "100%"}}
+                            style={{ width: "100%" }}
                         >
                             <Radio value="citing_paper_count" label="Sort By Citations" />
                             <Radio value="publication_year" label="Sort By Publication Year" />
@@ -117,7 +121,22 @@ function KeywordForm() {
                     </div>
                 </div>
             </form>
-            {active ? <List keywords={keys} data={data} /> : null}
+            {
+                active ?
+                    <List keywords={keys} data={data} /> :
+                    loading ?
+                        <div style={{ height: '100%', width: '100%', diplay: "flex", justifyContent: "center", alignItems: "center" }}>
+                            {/* <div style={{ position: 'relative', top: '10%', left: "45%" }} className="lds-hourglass"></div> */}
+                            <Notification
+                                style={{width: 'fit-content', height: 'fit-content', position: 'absolute', bottom: '10px', right: '10px'}}
+                                loading
+                                title="Uploading data to the server"
+                                disallowClose
+                            >
+                                Please wait until data is uploaded, you cannot close this notification yet
+                            </Notification>
+                        </div> :
+                        null}
         </Container>
     );
 }
