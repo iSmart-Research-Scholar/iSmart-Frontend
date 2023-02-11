@@ -9,11 +9,15 @@ import KeywordForm from "./components/KeywordForm";
 import ImageForm from "./components/ImageForm";
 import DocumentForm from "./components/DocumentForm";
 import Analysis from "./components/Analysis";
+import UserSpecificSearch from "./components/UserSpecificSearch";
+import Clustering from "./components/Clustering";
 import {
     IconFileSearch,
     IconKeyboard,
-    IconAlbum
+    IconAlbum,
+    IconGraph
 } from "@tabler/icons";
+// import CitationGraph from "./components/CitationGraph";
 // import test from './test.json';
 
 
@@ -37,6 +41,21 @@ const data = [
         icon: IconFileSearch,
         label: "Critical Analysis",
         description: "Critical Analysis of research papers."
+    },
+    {
+        icon: IconFileSearch,
+        label: "User Specific Search",
+        description: "Get User Specific Search Results with a click."
+    },
+    // {
+    //     icon: IconGraph,
+    //     label: "Research Paper Citation Graph",
+    //     description: "Get Paper Citation graph."
+    // },
+    {
+        icon: IconGraph,
+        label: "Ranking with Clustering",
+        description: "Search papers with clustered ranked results."
     }
 ];
 
@@ -68,6 +87,12 @@ function App() {
                 return <ImageForm />;
             case 3:
                 return <Analysis />;
+            case 4:
+                return <UserSpecificSearch />
+            // case 5:
+            //     return <CitationGraph />
+            case 5:
+                return <Clustering />
             default:
                 return null;
         }

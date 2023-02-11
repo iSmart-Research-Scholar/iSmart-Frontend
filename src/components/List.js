@@ -4,7 +4,7 @@ import axios from "axios";
 // import test from "../test.json";
 
 function List(props) {
-    const { keywords, data } = props;
+    const { keywords, data, selector, setSelector } = props;
     const test = data;
     const papers = test.articles;
 
@@ -37,6 +37,14 @@ function List(props) {
         console.log("End Profiling");
         setOpened(true);
     }
+
+    function runUserSearch(title, abstract) {
+        setSelector({
+            title, 
+            abstract
+        })
+    }
+
     return (
         <>
             {papers.map((item, key) => {
@@ -87,6 +95,7 @@ function List(props) {
                             <div>
                                 Authors :
                                 {item.authors.authors.map((author, key) => {
+                                    console.log(author)
                                     return (
                                         <>
                                             <Modal
@@ -95,6 +104,7 @@ function List(props) {
                                                 title="Author Details"
                                             >
                                                 <h5>Name: {modal.full_name}</h5>
+                                                <h5>Author id: {modal.id}</h5>
                                                 <h5>
                                                     Citation Count :{" "}
                                                     {modal.citations}
@@ -148,6 +158,18 @@ function List(props) {
                                     Publication Year: {item.publication_year}
                                 </h5>
                             </div>
+                            {
+                                selector ?
+                                <div style={{
+                                    display: 'flex',
+                                    justifyContent: 'space-evenly',
+                                    alignItems: 'center'
+                                }}><Button onClick={() => runUserSearch(item.title, item.abstract)}>Show Similar Results</Button>
+                                    <Button onClick={() => {}}>Show Similar Results by Co-Authors</Button>
+                                </div>:
+                                null
+
+                            }
                         </Box>
                     </Container>
                 );

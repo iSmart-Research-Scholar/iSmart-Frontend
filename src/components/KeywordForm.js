@@ -16,17 +16,6 @@ function KeywordForm() {
     const [sorter, setSorter] = useState("paperScore");
     const [loading, setLoading] = useState(false);
     async function submitHandler(e) {
-        // e.preventDefault();
-        // // satyam api
-        // await axios({
-        //     method: "GET",
-        //     url:
-        //         "https://ismartranker.herokuapp.com/search/?search_query=" +
-        //         keys,
-        // }).then((data) => {
-        //     setData(data.data);
-        //     setActive(true);
-        // });
         e.preventDefault();
         console.log("Submitting ...");
         setLoading(true);
